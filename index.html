@@ -1,0 +1,721 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tanker Endorsement Practice Test</title>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
+      max-width: 750px;
+      width: 90%;
+      box-sizing: border-box;
+      text-align: center;
+      position: relative;
+    }
+    .btn {
+      background-color: #fcd34d;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+    }
+    .btn:hover {
+      background-color: #fbbf24;
+    }
+    .option-btn {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: background-color 0.3s, border-color 0.3s;
+      background-color: #fff;
+    }
+    .option-btn:hover {
+      background-color: #e0f2fe;
+      border-color: #3b82f6;
+    }
+    .option-letter {
+      font-weight: bold;
+      min-width: 30px;
+      display: inline-block;
+    }
+    .correct {
+      background-color: #d1fae5 !important;
+      border-color: #10b981 !important;
+    }
+    .incorrect {
+      background-color: #fee2e2 !important;
+      border-color: #ef4444 !important;
+    }
+    .feedback {
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 15px;
+      background-color: #f9fafb;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: gray;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="quiz-container">
+<h1>Tanker Endorsement Practice Test</h1>
+<p>50 Questions</p>
+<button class="btn" onclick="startQuiz()">Start Quiz</button>
+<div class="footer">AAA CDL School | 571-266-0077 | Manassas, VA</div>
+</div>
+<script>
+    const allQuestions = [
+  {
+    "question": "When your cargo tank has baffles, what handling effect do you expect?",
+    "options": [
+      "There will be less side-to-side surge than there is in tanks without baffles",
+      "There will be less front-to-back surge than there is in tanks without baffles",
+      "There will be more slow surge than quick surge"
+    ],
+    "answer": 1,
+    "explanation": "Baffles control front-to-back liquid movement, improving braking stability and reducing surge during stops."
+  },
+  {
+    "question": "If you are driving a tanker and need to steer quickly to avoid a hazard you:",
+    "options": [
+      "Will find that tankers are easier to counter steer than most vehicles",
+      "Should not apply the brakes while turning",
+      "Should wrap your thumb around the steering wheel before starting the steering movement"
+    ],
+    "answer": 1,
+    "explanation": "Applying brakes while steering can destabilize a tanker, increasing the risk of a skid or rollover."
+  },
+  {
+    "question": "Which of these is the best way to take a curve?",
+    "options": [
+      "Slow to the safe speed before entering, then accelerate slightly through the curve",
+      "Slow to a safe speed before entering, then coast through the curve",
+      "Maintain speed until you enter, then brake as you drive through the curve"
+    ],
+    "answer": 0,
+    "explanation": "Slowing before a curve and accelerating slightly through it helps maintain control and prevent rollovers."
+  },
+  {
+    "question": "Hauling liquids in tankers requires special care for two reasons. One reason is the ______ center of gravity:",
+    "options": [
+      "Flat",
+      "Wide",
+      "High"
+    ],
+    "answer": 2,
+    "explanation": "A high center of gravity makes tankers more prone to tipping, especially during sharp turns or sudden stops."
+  },
+  {
+    "question": "Empty trucks:",
+    "options": [
+      "Have better traction when stopping than full ones",
+      "Require greater stopping distance than full ones",
+      "Need less space ahead than full ones"
+    ],
+    "answer": 1,
+    "explanation": "Empty tankers have less traction and may bounce during braking, requiring a longer stopping distance."
+  },
+  {
+    "question": "An emergency forces you to stop your tanker quickly or crash. You should:",
+    "options": [
+      "Use light pressure on the brake pedal",
+      "Use only the emergency brakes",
+      "Use controlled or stab braking"
+    ],
+    "answer": 2,
+    "explanation": "Controlled or stab braking helps avoid wheel lockup and loss of control when stopping quickly."
+  },
+  {
+    "question": "Side-to-side surge can cause:",
+    "options": [
+      "Uneven tire wear",
+      "Tire failure",
+      "Rollover"
+    ],
+    "answer": 2,
+    "explanation": "Side-to-side movement of liquid in a tank increases the risk of rollover, especially on curves or turns."
+  },
+  {
+    "question": "You should be extremely cautious when driving smooth bore tanks, especially when you are:",
+    "options": [
+      "Going up and downhill",
+      "Staffing or stopping",
+      "Loading and unloading"
+    ],
+    "answer": 1,
+    "explanation": "Smooth bore tanks lack baffles, so they\u2019re more prone to surge during stopping or starting, requiring extra caution."
+  },
+  {
+    "question": "You are driving a tanker truck and the front wheels begin to skid. Which of these is most likely to occur?",
+    "options": [
+      "You will continue in a straight line and keep moving forward no matter how much you steer",
+      "Liquid surge will pull the tank from the truck",
+      "The truck will roll over"
+    ],
+    "answer": 0,
+    "explanation": "In a front-wheel skid, steering becomes ineffective and the vehicle moves straight regardless of input."
+  },
+  {
+    "question": "You are driving on a clear night. You must dim your headlights from high to low. You should adjust your speed so that you can stop within:",
+    "options": [
+      "100 feet",
+      "The distance you will travel in the next 15 seconds",
+      "The distance you can see ahead"
+    ],
+    "answer": 2,
+    "explanation": "You must always be able to stop within the visible distance illuminated by your headlights for safe driving."
+  },
+  {
+    "question": "You should know the outage needed for the liquids you carry because:",
+    "options": [
+      "Some of the heaviest liquids do not have any",
+      "Tank baffles are not always legal with outage",
+      "Some liquids expand more than others when they get warm"
+    ],
+    "answer": 2,
+    "explanation": "Some liquids expand significantly when warmed, requiring enough outage space to prevent overflow or pressure buildup."
+  },
+  {
+    "question": "When should the driver of a tanker that has lost its brakes use a truck escape ramp?",
+    "options": [
+      "Only if the tank is empty",
+      "Always",
+      "Never"
+    ],
+    "answer": 1,
+    "explanation": "Escape ramps are designed to prevent serious crashes and should be used anytime brake failure occurs, regardless of load."
+  },
+  {
+    "question": "If an oncoming vehicle drifts into your lane you should:",
+    "options": [
+      "Use no less than one full turn of steering wheel to avoid it",
+      "Move to your right",
+      "Try to stop rather than turn"
+    ],
+    "answer": 1,
+    "explanation": "Steering to the right minimizes the risk of head-on collisions and is generally safer than turning left into traffic."
+  },
+  {
+    "question": "Which of these statements about stopping distance and speed is true?",
+    "options": [
+      "Total stopping distance is how far you will travel after the brakes are applied at speeds over 30 mph",
+      "You need about two times as much stopping distance at 40 mph as at 20 mph",
+      "Wet roads can double stopping distance at any speed"
+    ],
+    "answer": 2,
+    "explanation": "Wet roads significantly reduce traction and can double the stopping distance, increasing accident risk."
+  },
+  {
+    "question": "A traffic emergency requires you to escape to the shoulder or roadside. If possible, coast down to _____ mph before using your brakes:",
+    "options": [
+      "20",
+      "30",
+      "40"
+    ],
+    "answer": 0,
+    "explanation": "Coasting to a lower speed like 20 mph before braking helps you stop more safely and maintain control."
+  },
+  {
+    "question": "When you load the small tanks or a cargo tank equipped with bulkheads, you should check your:",
+    "options": [
+      "Water content",
+      "Air to fuel ratio",
+      "Weight distribution"
+    ],
+    "answer": 2,
+    "explanation": "Proper weight distribution ensures vehicle balance, prevents overloading axles, and improves safe handling."
+  },
+  {
+    "question": "Baffles in liquid cargo tanks do not usually prevent _____ surge:",
+    "options": [
+      "Side to side",
+      "Top to bottom",
+      "Front to back"
+    ],
+    "answer": 0,
+    "explanation": "Baffles are more effective at controlling front-to-back surge than side-to-side liquid movement."
+  },
+  {
+    "question": "What does liquid surge do to the handling of a tanker?",
+    "options": [
+      "It lets you turn corners tighter",
+      "It makes it roll easier",
+      "It can move the truck in the direction the liquid waves move"
+    ],
+    "answer": 2,
+    "explanation": "Liquid surge can push the vehicle in the direction the liquid is moving, affecting your steering and control."
+  },
+  {
+    "question": "The best way to take a curve is to slow to a safe speed before entering the curve, then _____ as you go through it:",
+    "options": [
+      "Accelerate slightly",
+      "Brake lightly",
+      "Downshift"
+    ],
+    "answer": 0,
+    "explanation": "Light acceleration during a curve maintains vehicle stability and helps prevent rollovers or skidding."
+  },
+  {
+    "question": "You are driving on a clear night with your low beam lights on. If your headlights let you see about 250 feet ahead of you, you should adjust your speed so that you can stop within about _____ feet:",
+    "options": [
+      "100",
+      "250",
+      "500"
+    ],
+    "answer": 1,
+    "explanation": "Always adjust your speed so you can stop within your visible range to ensure you have time to react to hazards."
+  },
+  {
+    "question": "Which of these statements about emergency steering is true?",
+    "options": [
+      "Quick steering movements should only be done with the wheels locked",
+      "If an oncoming driver drifts into your lane, a move to your right may be best",
+      "You can almost always stop more quickly than you can turn"
+    ],
+    "answer": 1,
+    "explanation": "Swerving to the right avoids head-on collisions and is often the safest emergency maneuver."
+  },
+  {
+    "question": "Hauling liquids in tank vehicles requires special care for two reasons. One reason is:",
+    "options": [
+      "Liquid movement",
+      "Extreme weight",
+      "Uneven expansion"
+    ],
+    "answer": 0,
+    "explanation": "Liquid surge affects braking and handling, making tankers more difficult to control than solid cargo vehicles."
+  },
+  {
+    "question": "How would you expect a truck with a baffled cargo tank to handle on the road?",
+    "options": [
+      "The truck will seem more heavy than it really is",
+      "There will be less front-to-back surge than there is in tanks without baffles",
+      "The truck will handle the same as a tanker without baffles"
+    ],
+    "answer": 1,
+    "explanation": "Baffles help control front-to-back movement of liquid, reducing surge during starts and stops."
+  },
+  {
+    "question": "Except when you are loading or unloading a cargo tank, the liquid discharge valve should always be:",
+    "options": [
+      "Open",
+      "Closed",
+      "Unlatched"
+    ],
+    "answer": 1,
+    "explanation": "Keeping the discharge valve closed prevents accidental spills or leaks during transit."
+  },
+  {
+    "question": "Which of the statements about tank vehicles is true?",
+    "options": [
+      "Fully loaded tank vehicles take longer to stop than empty ones",
+      "You should use only the emergency brakes to stop a tank in order to avoid a crash",
+      "The posted speed for a curve may be too fast for a tank"
+    ],
+    "answer": 2,
+    "explanation": "Posted speed limits don\u2019t account for liquid surge and high centers of gravity; tanks must take curves more cautiously."
+  },
+  {
+    "question": "When transporting a tanker, you should inspect the cargo within the first _____ miles of the trip:",
+    "options": [
+      "50",
+      "75",
+      "125"
+    ],
+    "answer": 0,
+    "explanation": "Federal regulations require inspecting cargo within the first 50 miles to ensure safety and compliance."
+  },
+  {
+    "question": "Before loading or unloading the tanker, the first thing you should do:",
+    "options": [
+      "Properly secure all of the baffles",
+      "Inspect the vehicle",
+      "Make sure you have all the necessary plans"
+    ],
+    "answer": 1,
+    "explanation": "A full vehicle inspection ensures mechanical systems and tank components are in safe working order before handling cargo."
+  },
+  {
+    "question": "When inspecting the pipe connections and hoses for leaks, pay special attention to:",
+    "options": [
+      "Joints",
+      "Suspension wear",
+      "Long sections"
+    ],
+    "answer": 0,
+    "explanation": "Joints are common points of leakage due to pressure, vibration, and repeated use \u2014 they require close monitoring."
+  },
+  {
+    "question": "Portable tanks are:",
+    "options": [
+      "Bulk containers, which are not permanently attached to the truck",
+      "Can only be loaded when they are attached to the vehicle",
+      "Not allowed to carry loads that are more than 1000 gallons"
+    ],
+    "answer": 0,
+    "explanation": "Portable tanks are temporary containers used for transport and are not fixed to the frame of the vehicle."
+  },
+  {
+    "question": "Vehicle skids are often caused by:",
+    "options": [
+      "Driving with bald tires",
+      "Loose materials on a road surface",
+      "Driving too fast"
+    ],
+    "answer": 2,
+    "explanation": "Excessive speed is the most common cause of skids, especially when combined with sudden braking or poor road conditions."
+  },
+  {
+    "question": "If you steer a tank vehicle too quickly while braking, you:",
+    "options": [
+      "Decrease your safe stopping distance",
+      "Can reduce the amount of liquid surge",
+      "Make the vehicle roll over"
+    ],
+    "answer": 2,
+    "explanation": "Sharp steering during braking in a tanker increases the chance of a rollover due to a high center of gravity and surge."
+  },
+  {
+    "question": "Which of the statements about emergency steering and tankers is true?",
+    "options": [
+      "A tanker is easier to come to steer than most of the vehicles",
+      "When making quick steering movements, do not apply the brakes",
+      "The clutch should be depressed before making a quick steering movement"
+    ],
+    "answer": 1,
+    "explanation": "Avoid braking during quick steering, as it destabilizes the vehicle and increases rollover risk."
+  },
+  {
+    "question": "Baffled liquid tanks have bulkheads:",
+    "options": [
+      "That increase the amount of side-to-side surges",
+      "That separate the liquids from different areas of the tanks",
+      "With holes in them that let liquid flow through them"
+    ],
+    "answer": 2,
+    "explanation": "The holes in baffled bulkheads slow liquid surge while allowing fluid movement, improving balance and control."
+  },
+  {
+    "question": "What should you do before entering a curve in a tanker vehicle?",
+    "options": [
+      "Speed up to increase traction",
+      "Downshift and apply the brakes hard",
+      "Slow down to a safe speed before entering"
+    ],
+    "answer": 2,
+    "explanation": "Slowing before a curve maintains control and reduces the risk of rollovers caused by centrifugal force and liquid surge."
+  },
+  {
+    "question": "What should you always check for before loading a tanker?",
+    "options": [
+      "That the tires are new",
+      "That the outlet valves are closed",
+      "That the air pressure is below normal"
+    ],
+    "answer": 1,
+    "explanation": "Outlet valves must be securely closed before loading to prevent leaks or spills during filling."
+  },
+  {
+    "question": "Why is surge more dangerous in smooth bore tanks?",
+    "options": [
+      "They cause uneven expansion",
+      "They don\u2019t have baffles to slow liquid movement",
+      "They weigh less than other tanks"
+    ],
+    "answer": 1,
+    "explanation": "Smooth bore tanks lack internal baffles, allowing liquid to surge freely, making them harder to control."
+  },
+  {
+    "question": "What is the best method to reduce the chance of rollover in a tanker?",
+    "options": [
+      "Accelerate gradually",
+      "Make quick steering corrections",
+      "Take turns and curves slowly"
+    ],
+    "answer": 2,
+    "explanation": "Slowing for turns and curves reduces lateral force and lowers the risk of tipping from liquid movement."
+  },
+  {
+    "question": "What is one sign of possible leaks during transit?",
+    "options": [
+      "Dry hoses",
+      "Vapor or mist near valves or outlets",
+      "Even tire wear"
+    ],
+    "answer": 1,
+    "explanation": "Visible vapor, mist, or residue near valves often indicates a leak and should be investigated immediately."
+  },
+  {
+    "question": "What should be done after loading a tanker to ensure safety?",
+    "options": [
+      "Check weather conditions",
+      "Secure all manhole covers and valves",
+      "Inflate tires to max PSI"
+    ],
+    "answer": 1,
+    "explanation": "Securing all access points prevents spillage, maintains pressure, and ensures legal and safe operation during transport."
+  },
+  {
+    "question": "Which of the following is most likely to cause a rollover in a tanker?",
+    "options": [
+      "High winds",
+      "Braking on a straight road",
+      "Quick steering or sudden movements"
+    ],
+    "answer": 2,
+    "explanation": "Sudden steering can shift liquid load rapidly, causing rollovers, especially in high-clearance tankers."
+  },
+  {
+    "question": "The expansion of liquid in a tanker can cause:",
+    "options": [
+      "A loss of brake pressure",
+      "The tank to become overweight or over pressurized",
+      "A decrease in surge"
+    ],
+    "answer": 1,
+    "explanation": "As liquid heats up, it expands, which can lead to overfilled or over pressurized tanks if not properly accounted for."
+  },
+  {
+    "question": "What action is necessary if a tanker starts to skid?",
+    "options": [
+      "Steer in the opposite direction of the skid",
+      "Accelerate to regain control",
+      "Stop braking, steer gently, and regain traction"
+    ],
+    "answer": 2,
+    "explanation": "Releasing the brakes and steering gently helps regain traction and control during a skid."
+  },
+  {
+    "question": "When hauling hazardous materials in a tank, the driver must:",
+    "options": [
+      "Display the correct placards",
+      "Leave the valves open for ventilation",
+      "Use only baffle-free tanks"
+    ],
+    "answer": 0,
+    "explanation": "Proper placards are required by law to alert others of the material being transported and ensure safety compliance."
+  },
+  {
+    "question": "A tank vehicle has a higher center of gravity. This means:",
+    "options": [
+      "It handles better in windy conditions",
+      "It\u2019s more likely to tip over",
+      "It can stop more quickly"
+    ],
+    "answer": 1,
+    "explanation": "A high center of gravity increases the risk of tipping, especially on curves or during sudden maneuvers."
+  },
+  {
+    "question": "Surge affects handling by:",
+    "options": [
+      "Increasing the stopping power of the brakes",
+      "Shifting the center of gravity unpredictably",
+      "Decreasing tire wear"
+    ],
+    "answer": 1,
+    "explanation": "Liquid surge shifts weight unpredictably, making the vehicle harder to handle during acceleration, braking, and turns."
+  },
+  {
+    "question": "Which of the following helps minimize surge?",
+    "options": [
+      "Smooth and controlled braking",
+      "Rapid acceleration",
+      "Making sharp turns"
+    ],
+    "answer": 0,
+    "explanation": "Smooth, gradual braking limits the movement of liquid and helps maintain vehicle stability."
+  },
+  {
+    "question": "Why are tanker vehicles required to stop at railroad crossings, even when empty?",
+    "options": [
+      "To prevent shifting cargo",
+      "Because of federal regulations",
+      "So the driver can test the brakes"
+    ],
+    "answer": 1,
+    "explanation": "Federal safety laws require tankers to stop at all railroad crossings due to the hazardous nature of their cargo."
+  },
+  {
+    "question": "What must always be checked before unloading a tanker?",
+    "options": [
+      "The color of the tank",
+      "The air pressure in the tires",
+      "The destination and correct product delivery site"
+    ],
+    "answer": 2,
+    "explanation": "Confirming the correct delivery location ensures the right product is unloaded and prevents cross-contamination or accidents."
+  },
+  {
+    "question": "When should you check for leaks or spills on a tanker?",
+    "options": [
+      "Only after a trip",
+      "Before, during, and after transport",
+      "Only during unloading"
+    ],
+    "answer": 1,
+    "explanation": "Regular inspection at all stages of transport helps catch leaks early and ensures ongoing safety and compliance."
+  },
+  {
+    "question": "What is a key safety step before descending a steep grade in a tanker?",
+    "options": [
+      "Honk your horn",
+      "Use the air horn to alert others",
+      "Downshift to a lower gear before descending"
+    ],
+    "answer": 2,
+    "explanation": "Downshifting before a downgrade gives you better engine braking control and helps avoid overheating the service brakes."
+  }
+];
+
+    let questions = [];
+    let currentQuestion = 0;
+    let selectedOption = null;
+    let correctAnswers = 0;
+    let wrongAnswers = 0;
+    let wrongQuestionIndexes = [];
+
+    function startQuiz(retryWrong = false) {
+      questions = retryWrong ? wrongQuestionIndexes.map(i => allQuestions[i]) : [...allQuestions];
+      currentQuestion = 0;
+      correctAnswers = 0;
+      wrongAnswers = 0;
+      wrongQuestionIndexes = [];
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      selectedOption = null;
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = `
+        <h2>Tanker Endorsement Practice Test</h2>
+        <h3>Question ${currentQuestion + 1} of ${questions.length}</h3>
+        <p><strong>${q.question}</strong></p>
+        <div class="options">
+          ${q.options.map((opt, i) => `
+            <button class="option-btn" onclick="selectOption(${i})">
+              <span class="option-letter">${String.fromCharCode(65 + i)})</span> <span>${opt}</span>
+            </button>`).join('')}
+        </div>
+        <button class="btn" onclick="submitAnswer()">Submit</button>
+        <div class="footer">AAA CDL School | 571-266-0077 | Manassas, VA</div>
+      `;
+    }
+
+    function selectOption(index) {
+      selectedOption = index;
+      document.querySelectorAll('.option-btn').forEach((btn, i) => {
+        btn.style.borderColor = "#ddd";
+        btn.style.backgroundColor = "#fff";
+        if (i === index) {
+          btn.style.borderColor = "#3b82f6";
+          btn.style.backgroundColor = "#e0f2fe";
+        }
+      });
+    }
+
+    function submitAnswer() {
+      if (selectedOption === null) return;
+      const q = questions[currentQuestion];
+      const isCorrect = selectedOption === q.answer;
+      if (isCorrect) {
+        correctAnswers++;
+      } else {
+        wrongAnswers++;
+        wrongQuestionIndexes.push(allQuestions.indexOf(q));
+      }
+
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = `
+        <h2>Tanker Endorsement Practice Test</h2>
+        <h3>Question ${currentQuestion + 1} of ${questions.length}</h3>
+        <p><strong>${q.question}</strong></p>
+        <div class="options">
+          ${q.options.map((opt, i) => {
+            let className = "";
+            if (i === q.answer) className = "correct";
+            else if (i === selectedOption) className = "incorrect";
+            return `<button class="option-btn ${className}" disabled>
+                      <span class="option-letter">${String.fromCharCode(65+i)})</span> <span>${opt}</span>
+                    </button>`;
+          }).join("")}
+        </div>
+        <div class="feedback">
+          ${isCorrect ? "✅ Your answer is correct." : `❌ Your answer was incorrect. The correct answer is ${String.fromCharCode(65 + q.answer)}.`}
+        </div>
+        <p><em>Explanation: ${q.explanation}</em></p>
+        ${currentQuestion < questions.length - 1
+          ? `<button class="btn" onclick="nextQuestion()">Next</button>`
+          : `<button class="btn" onclick="showResults()">Finish</button>`}
+        <div class="footer">AAA CDL School | 571-266-0077 | Manassas, VA</div>
+      `;
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      showQuestion();
+    }
+
+    function showResults() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = `
+        <h2>Quiz Complete!</h2>
+        <p>You answered ${correctAnswers} out of ${questions.length} questions correctly.</p>
+        <button class="btn" onclick="startQuiz()">Retry Full Quiz</button>
+        ${wrongQuestionIndexes.length > 0 ? `<button class="btn" onclick="startQuiz(true)">Retry Wrong Questions</button>` : ''}
+        <div class="footer">AAA CDL School | 571-266-0077 | Manassas, VA</div>
+      `;
+    }
+  
+// Disable right-click
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Block developer shortcuts
+document.addEventListener('keydown', function (e) {
+  if (
+    (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'c' || e.key === 'C')) || // Ctrl+U, Ctrl+C
+    e.key === 'F12'
+  ) {
+    e.preventDefault();
+    alert("Action disabled");
+  }
+});
+
+</script>
+
+<div style="position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 13px; color: gray; padding: 5px 0; background: #f9fafb; z-index: 999;">
+  © 2025 – All Rights Reserved
+</div>
+</body>
+
+</html>
